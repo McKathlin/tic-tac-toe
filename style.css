@@ -1,6 +1,7 @@
 :root {
     --text-color: #222222;
     --back-color: white;
+    --grid-color: #777777;
 
     font-size: clamp(16px, calc(10px + 1vmin), 50px);
 }
@@ -9,6 +10,7 @@
     :root {
         --text-color: #dddddd;
         --back-color: black;
+        --grid-color: #999999;
     }
 }
 
@@ -21,6 +23,31 @@
 body {
     font-family: "Comic Sans", comic-sans, cursive;
 
+    height: 100vh;
     color: var(--text-color);
+    background-color: var(--back-color);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#board {
+    height: calc(95vmin - 7rem);
+    aspect-ratio: 1 / 1;
+    background-color: var(--grid-color);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: clamp(2px, 1vmin, 12px);
+}
+
+.cell {
+    color: var(--text-color);
+    font-size: 20vmin;
+    text-align: center;
     background-color: var(--back-color);
 }
