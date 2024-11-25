@@ -197,6 +197,114 @@ const TicTacToe = (function () {
         return winIndexes;
     };
 
+    // Game tie tracking
+
+    let _isTie = false;
+
+    const isTie = function() {
+        return _isTie;
+    };
+
+    const _checkTie = function() {
+        if (_isTie) {
+            return true;
+        } else {
+            // It's only counted as a tie
+            // if all dimensions are unwinnable for all players.
+            _isTie = _checkColumnTie()
+                && _checkRowTie()
+                && _checkDiagonalTie();
+            return _isTie;
+        }
+    };
+
+    const _checkColumnTie = function() {
+        for (let c = 0; c < board.WIDTH; c++) {
+            let seenMark = null;
+            let columnTie = false;
+            for (let r = 0; r < board.HEIGHT && !columnTie; r++) {
+                let mark = board.getAtCoords(c, r);
+                if (!mark) {
+                    // No mark to check.
+                } else if (!seenMark) {
+                    seenMark = mark;
+                } else if (mark != seenMark) {
+                    columnTie = true;
+                }
+            }
+
+            if (!columnTie) {
+                return false;
+            }
+        }
+        // If we're here, all columns are tied.
+        return true;
+    };
+
+    const _checkRowTie = function() {
+        for (let r = 0; r < board.HEIGHT; r++) {
+            let seenMark = null;
+            let rowTie = false;
+            for (let c = 0; c < board.WIDTH && !rowTie; c++) {
+                let mark = board.getAtCoords(c, r);
+                if (!mark) {
+                    // No mark to check.
+                } else if (!seenMark) {
+                    seenMark = mark;
+                } else if (mark != seenMark) {
+                    rowTie = true;
+                }
+            }
+
+            if (!rowTie) {
+                return false;
+            }
+        }
+        // If we're here, all rows are tied.
+        return true;
+    };
+
+    const _checkDiagonalTie = function() {
+        if (board.WIDTH != board.HEIGHT) {
+            return true; // No diagonals to check.
+        }
+
+        // Top left to bottom right
+        let tie = false;
+        let seenMark = null;
+        for (let i = 0; i < board.WIDTH && !tie; i++) {
+            let mark = board.getAtCoords(i, i);
+            if (!mark) {
+                // No mark to check.
+            } else if (!seenMark) {
+                seenMark = mark;
+            } else if (mark != seenMark) {
+                tie = true;
+            }
+        }
+
+        if (!tie) {
+            return false;
+        }
+
+        // Top right to bottom left
+        tie = false;
+        seenMark = null;
+
+        for (let r = 0; r < board.HEIGHT && !tie; r++) {
+            let c = (board.WIDTH - 1) - r;
+            let mark = board.getAtCoords(c, r);
+            if (!mark) {
+                // No mark to check.
+            } else if (!seenMark) {
+                seenMark = mark;
+            } else if (mark != seenMark) {
+                tie = true;
+            }
+        }
+        return tie;
+    };
+
     // Game actions
 
     const canMarkIndex = function(index) {
@@ -209,8 +317,10 @@ const TicTacToe = (function () {
             return false;
         }
         board.setAtIndex(index, mark);
-        _checkWin(currentPlayer());
-        _changeTurn();
+        if (!_checkWin(currentPlayer())) {
+            _checkTie();
+            _changeTurn();
+        }
         return true;
     };
 
@@ -219,11 +329,12 @@ const TicTacToe = (function () {
         _currentPlayerIndex = 0;
         _winner = null;
         _winIndexes = null;
+        _isTie = false;
     };
 
     // Public returnables
 
-    return { board, currentPlayer, markIndex, winner, winIndexes };
+    return { board, currentPlayer, markIndex, winner, winIndexes, isTie };
 })();
 
 //=============================================================================
@@ -275,6 +386,8 @@ const DisplayController = (function() {
         if (TicTacToe.winner()) {
             let winnerName = TicTacToe.winner().name;
             statusMessage.textContent = `${winnerName} wins!`;
+        } else if (TicTacToe.isTie()) {
+            statusMessage.textContent = `It's a tie.`;
         } else {
             let playerName = TicTacToe.currentPlayer().name;
             statusMessage.textContent = `It's ${playerName}'s turn.`;
