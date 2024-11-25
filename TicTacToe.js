@@ -227,26 +227,64 @@ const TicTacToe = (function () {
 })();
 
 //=============================================================================
+// Node constants
+//=============================================================================
+const statusMessage = document.getElementById("status-message");
+const boardNode = document.getElementById("board");
+
+//=============================================================================
 // Controller
 //=============================================================================
 
-// Mark cell
+const DisplayController = (function() {
+    // Mark cell
 
-// Restart game
+    markCell = function(cellNode) {
+        const index = _getIndexForNodeId(cellNode.id);
+        if (index == null) {
+            return; // Can't mark; not a valid cell.
+        }
 
-// Refresh cell
+        const mark = TicTacToe.currentPlayer().mark;
 
-// Refresh board
+        cellNode.textContent = mark;
+        TicTacToe.markIndex(index);
+    }
+
+    // Restart game
+
+    // Refresh cell
+
+    // Refresh message
+
+    
+
+    // Private helpers
+
+    _getIndexForNodeId = function(nodeId) {
+        // Expected node ID form: "cell-N" where N is the integer index
+        if (nodeId.startsWith("cell-")) {
+            return Number.parseInt(nodeId.slice(5));
+        } else {
+            return null;
+        }
+        
+    };
+
+    _getNodeIdForIndex = function(index) {
+        return `cell-${index}`;
+    }
+    // Public returnables
+    return { markCell };
+
+})();
 
 //=============================================================================
 // Init
 //=============================================================================
 
-TicTacToe.markIndex(2);
-TicTacToe.markIndex(0);
-TicTacToe.markIndex(4);
-TicTacToe.markIndex(3);
-TicTacToe.markIndex(6);
-TicTacToe.board.log();
-console.log(TicTacToe.winner());
-console.log(TicTacToe.winIndexes());
+for (cellNode of boardNode.querySelectorAll(".cell")) {
+    cellNode.addEventListener("click", function(event) {
+        DisplayController.markCell(event.target);
+    });
+}
