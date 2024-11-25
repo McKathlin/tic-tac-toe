@@ -70,6 +70,18 @@ header h1 {
     background-color: var(--back-color);
 }
 
+#board .cell.empty {
+    cursor: pointer;
+}
+
+#board .cell.marked {
+    cursor: not-allowed;
+}
+
+#board.win-state .cell.empty {
+    cursor: not-allowed;
+}
+
 /* Footer */
 
 footer a {

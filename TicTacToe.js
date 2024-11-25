@@ -361,9 +361,7 @@ const DisplayController = (function() {
 
     refresh = function() {
         _refreshStatusMessage();
-        for (cellNode of cellNodes) {
-            _refreshCell(cellNode);
-        }
+        _refreshBoard();
     };
 
     // Private helpers
@@ -375,7 +373,6 @@ const DisplayController = (function() {
         } else {
             return null;
         }
-        
     };
 
     _getNodeIdForIndex = function(index) {
@@ -394,10 +391,31 @@ const DisplayController = (function() {
         }
     };
 
+    _refreshBoard = function() {
+        if (TicTacToe.winner()) {
+            boardNode.classList.add("win-state");
+        } else {
+            boardNode.classList.remove("win-state");
+        }
+
+        for (cellNode of cellNodes) {
+            _refreshCell(cellNode);
+        }
+    }
+
     _refreshCell = function(cellNode) {
         let index = _getIndexForNodeId(cellNode.id);
         let mark = TicTacToe.board.getAtIndex(index);
-        cellNode.textContent = mark;
+        if (mark) {
+            cellNode.textContent = mark;
+            cellNode.classList.remove("empty");
+            cellNode.classList.add("marked");
+        } else {
+            cellNode.textContent = "";
+            cellNode.classList.remove("marked");
+            cellNode.classList.add("empty");
+        }
+        
     };
 
     // Public returnables
