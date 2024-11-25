@@ -200,16 +200,16 @@ const TicTacToe = (function () {
     // Game actions
 
     const canMarkIndex = function(index) {
-        return !this._winner && board.isClearAtIndex(index);
-    }
+        return !_winner && board.isClearAtIndex(index);
+    };
 
     const markIndex = function(index) {
-        const mark = this.currentPlayer().mark;
+        const mark = currentPlayer().mark;
         if (!canMarkIndex(index)) {
             return false;
         }
         board.setAtIndex(index, mark);
-        _checkWin(this.currentPlayer());
+        _checkWin(currentPlayer());
         _changeTurn();
         return true;
     };
