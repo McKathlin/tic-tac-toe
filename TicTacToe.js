@@ -6,10 +6,18 @@
 //=============================================================================
 
 const TicTacToe = (function () {
+
+    // Board
     const board = (function() {
         const WIDTH = 3;
         const HEIGHT = 3;
         const cells = new Array(WIDTH * HEIGHT);
+
+        const clear = function() {
+            for (let i = 0; i < cells.length; i++) {
+                cells[i] = null;
+            }
+        };
 
         const getAtIndex = function(index) {
             return cells[index];
@@ -17,6 +25,14 @@ const TicTacToe = (function () {
 
         const getAtCoords = function(col, row) {
             return cells[_indexAtCoords(col, row)];
+        };
+
+        const isClearAtIndex = function(index) {
+            return !getAtIndex(index);
+        };
+
+        const isClearAtCoords = function(col, row) {
+            return !getAtCoords(col, row);
         };
 
         const setAtIndex = function(index, mark) {
@@ -44,22 +60,59 @@ const TicTacToe = (function () {
             return (row * WIDTH) + col;
         };
 
+        clear();
         return {
-            getAtIndex,
-            getAtCoords,
-            setAtIndex,
-            setAtCoords,
+            getAtCoords, getAtIndex,
+            isClearAtCoords, isClearAtIndex,
+            setAtCoords, setAtIndex,
             log
         };
     })();
 
     // Players
 
-    // Game state tracking
+    const createPlayer = function(symbol) {
+        const name = symbol;
+
+        const markBoardIndex = function(board, index) {
+            if (board.isClearAtIndex(index)) {
+                board.setAtIndex(index, symbol);
+            } else {
+                throw new Error("Can't mark an occupied cell!");
+            }
+        };
+
+        return { name, markBoardIndex };
+    };
+
+    const _players = [
+        createPlayer("X"),
+        createPlayer("O")
+    ];
+
+    // Game turn tracking
+
+    let _currentPlayerIndex = 0;
+    
+    const currentPlayer = function() {
+        return _players[_currentPlayerIndex];
+    };
+
+    const _changeTurn = function() {
+        _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.length;
+    };
+
+    // Game win tracking
+
+
+
+    // Game actions
+
+
 
     // Public returnables
 
-    return { board };
+    return { board, currentPlayer };
 })();
 
 //=============================================================================
@@ -78,9 +131,5 @@ const TicTacToe = (function () {
 // Init
 //=============================================================================
 
-TicTacToe.board.log();
-
-TicTacToe.board.setAtCoords(1, 0, "X");
-TicTacToe.board.setAtCoords(2, 2, "O");
-
+TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 3);
 TicTacToe.board.log();
