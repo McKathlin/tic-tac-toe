@@ -93,6 +93,15 @@ const TicTacToe = (function () {
         createPlayer("O")
     ];
 
+    // Game reset
+
+    const reset = function() {
+        board.clear();
+        _currentPlayerIndex = 0;
+        _winner = null;
+        _winIndexes = null;
+    };
+
     // Game turn tracking
 
     let _currentPlayerIndex = 0;
@@ -108,13 +117,19 @@ const TicTacToe = (function () {
     // Game win tracking
 
     let _winner = null;
+    let _winIndexes = null;
 
     const winner = function() {
         return _winner;
     };
 
+    const winIndexes = function() {
+        return _winIndexes;
+    }
+
     const checkWin = function(player) {
-        if (_getWinIndexes(player.mark)) {
+        _winIndexes = _getWinIndexes(player.mark);
+        if (_winIndexes) {
             _winner = player;
             return true;
         } else {
@@ -129,11 +144,41 @@ const TicTacToe = (function () {
     };
 
     const _getColumnWinIndexes = function(mark) {
+        for (let c = 0; c < board.WIDTH; c++) {
+            let winIndexes = [];
+            for (let r = 0; r < board.HEIGHT && winIndexes !== null; r++) {
+                if (board.getAtCoords(c, r) == mark) {
+                    winIndexes.push(board.indexAtCoords(c, r));
+                } else {
+                    winIndexes = null;
+                }
+            } // end for each cell of the column
 
+            if (winIndexes) {
+                return winIndexes;
+            }
+        } // end for reach column in the board
+        // If we're here, no win was found at any column.
+        return null;
     };
 
     const _getRowWinIndexes = function(mark) {
+        for (let r = 0; r < board.HEIGHT; r++) {
+            let winIndexes = [];
+            for (let c = 0; c < board.WIDTH && winIndexes !== null; c++) {
+                if (board.getAtCoords(c, r) == mark) {
+                    winIndexes.push(board.indexAtCoords(c, r));
+                } else {
+                    winIndexes = null;
+                }
+            } // end for each cell in the row
 
+            if (winIndexes) {
+                return winIndexes;
+            }
+        } // end for each row in the board
+        // If we're here, no win was found at any row.
+        return null;
     };
 
     const _getDiagonalWinIndexes = function(mark) {
@@ -146,7 +191,7 @@ const TicTacToe = (function () {
         let winIndexes = [];
         for (let i = 0; i < length && winIndexes !== null; i++) {
             if (board.getAtCoords(i, i) == mark) {
-                winIndexes += board.indexAtCoords(i, i);
+                winIndexes.push(board.indexAtCoords(i, i));
             } else {
                 winIndexes = null;
             }
@@ -161,7 +206,7 @@ const TicTacToe = (function () {
         for (let r = 0; r < length && winIndexes !== null; r++) {
             let c = (length - 1) - r;
             if (board.getAtCoords(c, r) == mark) {
-                winIndexes += board.indexAtCoords(c, r);
+                winIndexes.push(board.indexAtCoords(c, r));
             } else {
                 winIndexes = null;
             }
@@ -195,8 +240,9 @@ const TicTacToe = (function () {
 // Init
 //=============================================================================
 
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 0);
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 8);
+TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 1);
+TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 2);
+TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 7);
 TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 4);
 TicTacToe.board.log();
 console.log(TicTacToe.checkWin(TicTacToe.currentPlayer()));
