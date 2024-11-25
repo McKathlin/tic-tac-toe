@@ -231,33 +231,29 @@ const TicTacToe = (function () {
 //=============================================================================
 const statusMessage = document.getElementById("status-message");
 const boardNode = document.getElementById("board");
+const cellNodes = boardNode.querySelectorAll(".cell");
 
 //=============================================================================
 // Controller
 //=============================================================================
 
 const DisplayController = (function() {
-    // Mark cell
 
     markCell = function(cellNode) {
         const index = _getIndexForNodeId(cellNode.id);
         if (index == null) {
             return; // Can't mark; not a valid cell.
         }
-
-        const mark = TicTacToe.currentPlayer().mark;
-
-        cellNode.textContent = mark;
         TicTacToe.markIndex(index);
+        refresh();
     }
 
-    // Restart game
-
-    // Refresh cell
-
-    // Refresh message
-
-    
+    refresh = function() {
+        _refreshStatusMessage();
+        for (cellNode of cellNodes) {
+            _refreshCell(cellNode);
+        }
+    };
 
     // Private helpers
 
@@ -273,9 +269,26 @@ const DisplayController = (function() {
 
     _getNodeIdForIndex = function(index) {
         return `cell-${index}`;
-    }
+    };
+
+    _refreshStatusMessage = function() {
+        if (TicTacToe.winner()) {
+            let winnerName = TicTacToe.winner().name;
+            statusMessage.textContent = `${winnerName} wins!`;
+        } else {
+            let playerName = TicTacToe.currentPlayer().name;
+            statusMessage.textContent = `It's ${playerName}'s turn.`;
+        }
+    };
+
+    _refreshCell = function(cellNode) {
+        let index = _getIndexForNodeId(cellNode.id);
+        let mark = TicTacToe.board.getAtIndex(index);
+        cellNode.textContent = mark;
+    };
+
     // Public returnables
-    return { markCell };
+    return { markCell, refresh };
 
 })();
 
@@ -283,8 +296,10 @@ const DisplayController = (function() {
 // Init
 //=============================================================================
 
-for (cellNode of boardNode.querySelectorAll(".cell")) {
+for (cellNode of cellNodes) {
     cellNode.addEventListener("click", function(event) {
         DisplayController.markCell(event.target);
     });
 }
+
+DisplayController.refresh();
