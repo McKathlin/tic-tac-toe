@@ -15,8 +15,16 @@ const TicTacToe = (function () {
             return cells[index];
         };
 
+        const getAtCoords = function(col, row) {
+            return cells[_indexAtCoords(col, row)];
+        };
+
         const setAtIndex = function(index, mark) {
             cells[index] = mark;
+        };
+
+        const setAtCoords = function(col, row, mark) {
+            cells[_indexAtCoords(col, row)] = mark;
         };
 
         const log = function() {
@@ -32,7 +40,17 @@ const TicTacToe = (function () {
             console.log("");
         };
 
-        return { getAtIndex, setAtIndex, log };
+        const _indexAtCoords = function(col, row) {
+            return (row * WIDTH) + col;
+        };
+
+        return {
+            getAtIndex,
+            getAtCoords,
+            setAtIndex,
+            setAtCoords,
+            log
+        };
     })();
 
     // Players
@@ -62,7 +80,7 @@ const TicTacToe = (function () {
 
 TicTacToe.board.log();
 
-TicTacToe.board.setAtIndex(0, "X");
-TicTacToe.board.setAtIndex(7, "O");
+TicTacToe.board.setAtCoords(1, 0, "X");
+TicTacToe.board.setAtCoords(2, 2, "O");
 
 TicTacToe.board.log();
