@@ -76,31 +76,13 @@ const TicTacToe = (function () {
     const createPlayer = function(symbol) {
         const name = symbol;
         const mark = symbol;
-
-        const markBoardIndex = function(board, index) {
-            if (board.isClearAtIndex(index)) {
-                board.setAtIndex(index, symbol);
-            } else {
-                throw new Error("Can't mark an occupied cell!");
-            }
-        };
-
-        return { name, mark, markBoardIndex };
+        return { name, mark };
     };
 
     const _players = [
         createPlayer("X"),
         createPlayer("O")
     ];
-
-    // Game reset
-
-    const reset = function() {
-        board.clear();
-        _currentPlayerIndex = 0;
-        _winner = null;
-        _winIndexes = null;
-    };
 
     // Game turn tracking
 
@@ -127,7 +109,7 @@ const TicTacToe = (function () {
         return _winIndexes;
     }
 
-    const checkWin = function(player) {
+    const _checkWin = function(player) {
         _winIndexes = _getWinIndexes(player.mark);
         if (_winIndexes) {
             _winner = player;
@@ -217,11 +199,31 @@ const TicTacToe = (function () {
 
     // Game actions
 
+    const canMarkIndex = function(index) {
+        return !this._winner && board.isClearAtIndex(index);
+    }
 
+    const markIndex = function(index) {
+        const mark = this.currentPlayer().mark;
+        if (!canMarkIndex(index)) {
+            return false;
+        }
+        board.setAtIndex(index, mark);
+        _checkWin(this.currentPlayer());
+        _changeTurn();
+        return true;
+    };
+
+    const reset = function() {
+        board.clear();
+        _currentPlayerIndex = 0;
+        _winner = null;
+        _winIndexes = null;
+    };
 
     // Public returnables
 
-    return { board, currentPlayer, winner, checkWin };
+    return { board, currentPlayer, markIndex, winner, winIndexes };
 })();
 
 //=============================================================================
@@ -240,9 +242,11 @@ const TicTacToe = (function () {
 // Init
 //=============================================================================
 
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 1);
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 2);
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 7);
-TicTacToe.currentPlayer().markBoardIndex(TicTacToe.board, 4);
+TicTacToe.markIndex(2);
+TicTacToe.markIndex(0);
+TicTacToe.markIndex(4);
+TicTacToe.markIndex(3);
+TicTacToe.markIndex(6);
 TicTacToe.board.log();
-console.log(TicTacToe.checkWin(TicTacToe.currentPlayer()));
+console.log(TicTacToe.winner());
+console.log(TicTacToe.winIndexes());
