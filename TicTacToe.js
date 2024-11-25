@@ -361,9 +361,7 @@ const DisplayController = (function() {
 
     refresh = function() {
         _refreshStatusMessage();
-        for (cellNode of cellNodes) {
-            _refreshCell(cellNode);
-        }
+        _refreshBoard();
     };
 
     // Private helpers
@@ -392,6 +390,18 @@ const DisplayController = (function() {
             statusMessage.textContent = `It's ${playerName}'s turn.`;
         }
     };
+
+    _refreshBoard = function() {
+        if (TicTacToe.winner()) {
+            boardNode.classList.add("win-state");
+        } else {
+            boardNode.classList.remove("win-state");
+        }
+
+        for (cellNode of cellNodes) {
+            _refreshCell(cellNode);
+        }
+    }
 
     _refreshCell = function(cellNode) {
         let index = _getIndexForNodeId(cellNode.id);

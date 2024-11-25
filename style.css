@@ -78,6 +78,10 @@ header h1 {
     cursor: not-allowed;
 }
 
+#board.win-state .cell.empty {
+    cursor: not-allowed;
+}
+
 /* Footer */
 
 footer a {
