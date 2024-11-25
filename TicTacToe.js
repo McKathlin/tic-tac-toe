@@ -375,7 +375,6 @@ const DisplayController = (function() {
         } else {
             return null;
         }
-        
     };
 
     _getNodeIdForIndex = function(index) {
@@ -397,7 +396,16 @@ const DisplayController = (function() {
     _refreshCell = function(cellNode) {
         let index = _getIndexForNodeId(cellNode.id);
         let mark = TicTacToe.board.getAtIndex(index);
-        cellNode.textContent = mark;
+        if (mark) {
+            cellNode.textContent = mark;
+            cellNode.classList.remove("empty");
+            cellNode.classList.add("marked");
+        } else {
+            cellNode.textContent = "";
+            cellNode.classList.remove("marked");
+            cellNode.classList.add("empty");
+        }
+        
     };
 
     // Public returnables
