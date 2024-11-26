@@ -88,6 +88,14 @@ header h1 {
 
 /* Board */
 
+main {
+    height: min(70vh, 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
 #board {
     --grid-height: min(calc(95vh - 10.5rem), 85vw);
     --grid-line-breadth: clamp(2px, 1vmin, 12px);
@@ -95,7 +103,6 @@ header h1 {
 
     height: var(--grid-height);
     aspect-ratio: 1 / 1;
-    margin: auto;
     background-color: var(--grid-color);
 
     display: grid;
@@ -148,7 +155,6 @@ header h1 {
 
     /* Keeps height consistent through button hide/show */
     height: 1.2rem;
-    margin-top: 0.5rem;
 }
 
 #message-row button {
@@ -195,8 +201,9 @@ footer a {
 /* Tiny screen adjustments */
 
 @media (max-height: 240px) {
-    #body {
-        gap: 0.25rem;
+    body {
+        justify-content: center;
+        gap: 2px;
     }
 
     header h1, footer {
@@ -214,6 +221,6 @@ footer a {
     }
 
     #board {
-        --grid-height: min(calc(95vh - 2.5rem), 85vw);
+        --grid-height: min(calc(95vh - 1.5rem), 90vw);
     }
 }
