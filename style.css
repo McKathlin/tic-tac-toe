@@ -112,7 +112,7 @@ header h1 {
 }
 
 #board .cell.marked {
-    cursor: not-allowed;
+    cursor: default;
 }
 
 #board.win-state .cell.empty {
