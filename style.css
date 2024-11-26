@@ -52,31 +52,37 @@ body {
 /* Header */
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: min(14vw, 2.5rem);
     padding: 0.5rem;
 }
 
-header input {
+#name-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#name-row label {
+    display: block;
+}
+
+#name-row input {
     font-family: var(--default-font);
-    font-size: 1.2rem;
+    font-size: 1rem;
 
     color: var(--text-color);
     background-color: var(--back-color);
 
-    width: 12ch;
+    width: 8ch;
     padding-left: 0.5ch;
     border: none;
     border-bottom: 0.1rem solid var(--text-color);
 }
 
-header input:focus {
+#name-row input:focus {
     color: var(--text-highlight-color);
     background-color: var(--back-highlight-color);
     outline: none;
-}
-
-#player-x-name {
-    margin-right: 1rem;
 }
 
 /* Board */
@@ -164,24 +170,45 @@ header input:focus {
 
 /* Footer */
 
+footer {
+    font-size: 0.8rem;
+}
+
 footer a {
     color: var(--text-color);
 }
 
-/* Adjustments for tiny viewports */
+/* Wider screen adjustments */
+
+@media (min-width: 600px) {
+    #name-row input {
+        font-size: 1.2rem;
+        width: 12ch;
+    }
+}
+
+/* Tiny screen adjustments */
 
 @media (max-height: 240px) {
+    #body {
+        gap: 0.25rem;
+    }
+
     header h1, footer {
         display: none;
     }
 
     #board {
-        --grid-height: min(calc(95vh - 4rem), 85vw);
+        --grid-height: min(calc(95vh - 4.5rem), 85vw);
     }
 }
 
-@media (max-width: 180px) {
-    header h1 {
-        font-size: 14vw;
+@media (max-height: 150px) {
+    #name-row {
+        display: none;
+    }
+
+    #board {
+        --grid-height: min(calc(95vh - 2.5rem), 85vw);
     }
 }
