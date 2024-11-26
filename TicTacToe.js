@@ -421,10 +421,16 @@ const DisplayController = (function() {
     };
 
     _refreshBoard = function() {
+        boardNode.classList.remove("x-turn");
+        boardNode.classList.remove("o-turn");
         if (TicTacToe.winner()) {
             boardNode.classList.add("win-state");
         } else {
             boardNode.classList.remove("win-state");
+            let mark = TicTacToe.currentPlayer().mark;
+            if (mark) {
+                boardNode.classList.add(`${mark.toLowerCase()}-turn`);
+            }
         }
 
         for (cellNode of cellNodes) {
