@@ -4,6 +4,7 @@
     --grid-color: #787674;
     --text-highlight-color: #302800;
     --back-highlight-color: #fff088;
+    --text-pending-color: #24262840;
 
     --default-font: "Comic Sans", comic-sans, cursive;
 
@@ -17,6 +18,7 @@
         --grid-color: #9a9896;
         --text-highlight-color: #fffacc;
         --back-highlight-color: #484000;
+        --text-pending-color: #dadcde40;
     }
 }
 
@@ -108,7 +110,16 @@ header h1 {
 }
 
 #board .cell.empty {
+    color: var(--text-pending-color);
     cursor: pointer;
+}
+
+#board.x-turn .cell.empty:hover::after {
+    content: "X";
+}
+
+#board.o-turn .cell.empty:hover::after {
+    content: "O";
 }
 
 #board .cell.marked {
