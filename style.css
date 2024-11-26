@@ -6,7 +6,8 @@
     --back-highlight-color: #fff088;
     --text-pending-color: #24262840;
 
-    --default-font: "Comic Sans", comic-sans, cursive;
+    --print-font: Arial, Helvetica, sans-serif;
+    --write-font: "Comic Sans", comic-sans, cursive, sans-serif;
 
     font-size: clamp(10px, calc(8px + 1.5vmin), 50px);
 }
@@ -29,7 +30,7 @@
 }
 
 body {
-    font-family: var(--default-font);
+    font-family: var(--print-font);
     text-align: center;
 
     height: 100vh;
@@ -67,7 +68,7 @@ header h1 {
 }
 
 #name-row input {
-    font-family: var(--default-font);
+    font-family: var(--write-font);
     font-size: 1rem;
 
     color: var(--text-color);
@@ -104,11 +105,14 @@ header h1 {
 }
 
 #board .cell {
-    color: var(--text-color);
-    text-align: center;
-    line-height: var(--cell-height);
+    font-family: var(--write-font);
     font-size: var(--cell-height);
+    line-height: var(--cell-height);
+
+    color: var(--text-color);
     background-color: var(--back-color);
+
+    text-align: center;
 }
 
 #board .cell.winning {
@@ -137,10 +141,11 @@ header h1 {
     cursor: not-allowed;
 }
 
-
 /* Message row */
 
 #message-row {
+    font-family: var(--write-font);
+
     /* Keeps height consistent through button hide/show */
     height: 1.2rem;
     margin-top: 0.5rem;
@@ -150,7 +155,7 @@ header h1 {
     display: inline-block;
     cursor: pointer;
 
-    font-family: var(--default-font);
+    font-family: var(--write-font);
     font-size: 1rem;
 
     color: var(--text-color);
