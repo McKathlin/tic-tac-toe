@@ -75,15 +75,28 @@ const TicTacToe = (function () {
     // Players
 
     const createPlayer = function(symbol) {
-        const name = symbol;
+        let _name = symbol;
         const mark = symbol;
-        return { name, mark };
+
+        const getName = function() {
+            return _name;
+        };
+
+        const setName = function(newName) {
+            if (newName && newName.length > 0) {
+                _name = newName;
+            } else {
+                _name = mark;
+            }
+        };
+
+        return { getName, setName, mark };
     };
 
-    const _players = [
-        createPlayer("X"),
-        createPlayer("O")
-    ];
+    const playerX = createPlayer("X");
+    const playerO = createPlayer("O");
+
+    const _players = [playerX, playerO];
 
     // Game turn tracking
 
@@ -342,6 +355,8 @@ const TicTacToe = (function () {
 
     return {
         board,
+        playerX,
+        playerO,
         currentPlayer,
         isTie,
         markIndex,
@@ -354,6 +369,8 @@ const TicTacToe = (function () {
 //=============================================================================
 // Node constants
 //=============================================================================
+const playerXNameNode = document.getElementById("player-x-name");
+const playerONameNode = document.getElementById("player-o-name");
 const statusMessageNode = document.getElementById("status-message");
 const resetButtonNode = document.getElementById("reset-button");
 const boardNode = document.getElementById("board");
@@ -365,7 +382,7 @@ const cellNodes = boardNode.querySelectorAll(".cell");
 
 const DisplayController = (function() {
 
-    markCell = function(cellNode) {
+    const markCell = function(cellNode) {
         const index = _getIndexForNodeId(cellNode.id);
         if (index == null) {
             return; // Can't mark; not a valid cell.
@@ -374,20 +391,30 @@ const DisplayController = (function() {
         refresh();
     };
 
-    resetGame = function() {
+    const resetGame = function() {
         TicTacToe.reset();
         refresh();
     };
 
-    refresh = function() {
+    const refresh = function() {
         _refreshStatusMessage();
         _refreshResetButton();
         _refreshBoard();
     };
 
+    const setNameX = function(newName) {
+        TicTacToe.playerX.setName(newName);
+        _refreshStatusMessage();
+    };
+
+    const setNameO = function(newName) {
+        TicTacToe.playerO.setName(newName);
+        _refreshStatusMessage();
+    };
+
     // Private helpers
 
-    _getIndexForNodeId = function(nodeId) {
+    const _getIndexForNodeId = function(nodeId) {
         // Expected node ID form: "cell-N" where N is the integer index
         if (nodeId.startsWith("cell-")) {
             return Number.parseInt(nodeId.slice(5));
@@ -396,23 +423,19 @@ const DisplayController = (function() {
         }
     };
 
-    _getNodeIdForIndex = function(index) {
-        return `cell-${index}`;
-    };
-
-    _refreshStatusMessage = function() {
+    const _refreshStatusMessage = function() {
         if (TicTacToe.winner()) {
-            let winnerName = TicTacToe.winner().name;
+            let winnerName = TicTacToe.winner().getName();
             statusMessageNode.textContent = `${winnerName} wins!`;
         } else if (TicTacToe.isTie()) {
             statusMessageNode.textContent = `It's a tie.`;
         } else {
-            let playerName = TicTacToe.currentPlayer().name;
+            let playerName = TicTacToe.currentPlayer().getName();
             statusMessageNode.textContent = `It's ${playerName}'s turn.`;
         }
     };
 
-    _refreshResetButton = function() {
+    const _refreshResetButton = function() {
         if (TicTacToe.winner() || TicTacToe.isTie()) {
             resetButtonNode.classList.remove("hidden");
         } else {
@@ -420,7 +443,7 @@ const DisplayController = (function() {
         }
     };
 
-    _refreshBoard = function() {
+    const _refreshBoard = function() {
         boardNode.classList.remove("x-turn");
         boardNode.classList.remove("o-turn");
         if (TicTacToe.winner()) {
@@ -438,7 +461,7 @@ const DisplayController = (function() {
         }
     }
 
-    _refreshCell = function(cellNode) {
+    const _refreshCell = function(cellNode) {
         let index = _getIndexForNodeId(cellNode.id);
         let mark = TicTacToe.board.getAtIndex(index);
         if (mark) {
@@ -459,7 +482,7 @@ const DisplayController = (function() {
     };
 
     // Public returnables
-    return { markCell, resetGame, refresh };
+    return { markCell, resetGame, refresh, setNameX, setNameO };
 
 })();
 
@@ -467,7 +490,7 @@ const DisplayController = (function() {
 // Init
 //=============================================================================
 
-for (cellNode of cellNodes) {
+for (const cellNode of cellNodes) {
     cellNode.addEventListener("click", function(event) {
         DisplayController.markCell(event.target);
     });
@@ -475,6 +498,14 @@ for (cellNode of cellNodes) {
 
 resetButtonNode.addEventListener("click", function(event) {
     DisplayController.resetGame();
-})
+});
+
+playerXNameNode.addEventListener("input", function(event) {
+    DisplayController.setNameX(event.target.value);
+});
+
+playerONameNode.addEventListener("input", function(event) {
+    DisplayController.setNameO(event.target.value);
+});
 
 DisplayController.refresh();

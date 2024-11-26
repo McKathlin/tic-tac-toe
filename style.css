@@ -49,51 +49,52 @@ body {
     display: none !important;
 }
 
-/* Title */
+/* Header */
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: min(14vw, 2.5rem);
     padding: 0.5rem;
 }
 
-/* Message row */
-
-#message-row {
-    /* Keeps height consistent through button hide/show */
-    height: 1.5rem;
+#name-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }
 
-#message-row button {
-    display: inline-block;
-    cursor: pointer;
+#name-row label {
+    display: block;
+}
 
+#name-row input {
     font-family: var(--default-font);
     font-size: 1rem;
 
     color: var(--text-color);
     background-color: var(--back-color);
 
-    border: 1px solid var(--text-color);
-    border-radius: 0.5rem;
-    padding: 0.1rem 0.5rem;
-    margin-left: 0.5rem;
+    width: 8ch;
+    padding-left: 0.5ch;
+    border: none;
+    border-bottom: 0.1rem solid var(--text-color);
 }
 
-#message-row button:hover {
+#name-row input:focus {
     color: var(--text-highlight-color);
-    border-color: var(--text-highlight-color);
     background-color: var(--back-highlight-color);
+    outline: none;
 }
 
 /* Board */
 
 #board {
-    --grid-height: min(calc(95vh - 9rem), 85vw);
+    --grid-height: min(calc(95vh - 10.5rem), 85vw);
     --grid-line-breadth: clamp(2px, 1vmin, 12px);
     --cell-height: calc((var(--grid-height) * 0.33) - (var(--grid-line-breadth) * 2));
 
     height: var(--grid-height);
     aspect-ratio: 1 / 1;
+    margin: auto;
     background-color: var(--grid-color);
 
     display: grid;
@@ -136,26 +137,78 @@ header h1 {
     cursor: not-allowed;
 }
 
+
+/* Message row */
+
+#message-row {
+    /* Keeps height consistent through button hide/show */
+    height: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+#message-row button {
+    display: inline-block;
+    cursor: pointer;
+
+    font-family: var(--default-font);
+    font-size: 1rem;
+
+    color: var(--text-color);
+    background-color: var(--back-color);
+
+    border: 1px solid var(--text-color);
+    border-radius: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    margin-left: 0.5rem;
+}
+
+#message-row button:hover {
+    color: var(--text-highlight-color);
+    border-color: var(--text-highlight-color);
+    background-color: var(--back-highlight-color);
+}
+
 /* Footer */
+
+footer {
+    font-size: 0.8rem;
+}
 
 footer a {
     color: var(--text-color);
 }
 
-/* Adjustments for tiny viewports */
+/* Wider screen adjustments */
+
+@media (min-width: 600px) {
+    #name-row input {
+        font-size: 1.2rem;
+        width: 12ch;
+    }
+}
+
+/* Tiny screen adjustments */
 
 @media (max-height: 240px) {
+    #body {
+        gap: 0.25rem;
+    }
+
     header h1, footer {
         display: none;
     }
 
     #board {
-        --grid-height: min(calc(95vh - 2.5rem), 85vw);
+        --grid-height: min(calc(95vh - 4.5rem), 85vw);
     }
 }
 
-@media (max-width: 180px) {
-    header h1 {
-        font-size: 14vw;
+@media (max-height: 150px) {
+    #name-row {
+        display: none;
+    }
+
+    #board {
+        --grid-height: min(calc(95vh - 2.5rem), 85vw);
     }
 }

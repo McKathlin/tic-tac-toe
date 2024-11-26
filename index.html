@@ -10,9 +10,13 @@
 <body>
     <header>
         <h1>Tic Tac Toe</h1>
-        <p id="message-row">
-            <span id="status-message">Loading...</span>
-            <button id="reset-button" class="hidden">Play Again</button>
+        <p id="name-row">
+            <label for="player-x-name">Player X:
+                <input id="player-x-name" name="player-x-name" type="text">
+            </label>
+            <label for="player-o-name">Player O:
+                <input id="player-o-name" name="player-o-name" type="text">
+            </label>
         </p>
     </header>
     <main>
@@ -27,6 +31,10 @@
             <div id="cell-7" class="cell"></div>
             <div id="cell-8" class="cell"></div>
         </div>
+        <p id="message-row">
+            <span id="status-message">Loading...</span>
+            <button id="reset-button" class="hidden">Play Again</button>
+        </p>
     </main>
     <footer>
         <p>Made by <a href="https://github.com/mckathlin">McKathlin</a></p>
