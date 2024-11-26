@@ -102,6 +102,11 @@ header h1 {
     background-color: var(--back-color);
 }
 
+#board .cell.winning {
+    color: var(--text-highlight-color);
+    background-color: var(--back-highlight-color);
+}
+
 #board .cell.empty {
     cursor: pointer;
 }
