@@ -52,7 +52,7 @@ header h1 {
 
 #message-row {
     /* Keeps height consistent through button hide/show */
-    height: 2.5rem;
+    height: 1.5rem;
 }
 
 #message-row button {
