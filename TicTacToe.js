@@ -376,6 +376,7 @@ const DisplayController = (function() {
 
     refresh = function() {
         _refreshStatusMessage();
+        _refreshResetButton();
         _refreshBoard();
     };
 
@@ -403,6 +404,14 @@ const DisplayController = (function() {
         } else {
             let playerName = TicTacToe.currentPlayer().name;
             statusMessageNode.textContent = `It's ${playerName}'s turn.`;
+        }
+    };
+
+    _refreshResetButton = function() {
+        if (TicTacToe.winner() || TicTacToe.isTie()) {
+            resetButtonNode.classList.remove("hidden");
+        } else {
+            resetButtonNode.classList.add("hidden");
         }
     };
 
