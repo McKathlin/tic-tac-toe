@@ -1,9 +1,9 @@
 :root {
     --text-color: #242628;
     --back-color: white;
-    --grid-color: #747678;
+    --grid-color: #787674;
     --text-highlight-color: #302800;
-    --back-highlight-color: #fffabb;
+    --back-highlight-color: #fff088;
 
     --default-font: "Comic Sans", comic-sans, cursive;
 
@@ -14,8 +14,8 @@
     :root {
         --text-color: #dadcde;
         --back-color: black;
-        --grid-color: #989aa0;
-        --text-highlight-color: #fffabb;
+        --grid-color: #9a9896;
+        --text-highlight-color: #fffacc;
         --back-highlight-color: #484000;
     }
 }
