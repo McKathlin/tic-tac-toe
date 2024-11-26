@@ -1,7 +1,7 @@
 :root {
-    --text-color: #222222;
+    --text-color: #242628;
     --back-color: white;
-    --grid-color: #777777;
+    --grid-color: #747678;
     --text-highlight-color: #302800;
     --back-highlight-color: #fffabb;
 
@@ -12,9 +12,9 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --text-color: #dddddd;
+        --text-color: #dadcde;
         --back-color: black;
-        --grid-color: #999999;
+        --grid-color: #989aa0;
         --text-highlight-color: #fffabb;
         --back-highlight-color: #484000;
     }
