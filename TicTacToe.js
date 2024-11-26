@@ -106,9 +106,9 @@ const TicTacToe = (function () {
         return _winner;
     };
 
-    const winIndexes = function() {
-        return _winIndexes;
-    }
+    const isWinningIndex = function(index) {
+        return _winIndexes && _winIndexes.has(index);
+    };
 
     const _checkWin = function(player) {
         _winIndexes = _getWinIndexes(player.mark);
@@ -118,12 +118,17 @@ const TicTacToe = (function () {
         } else {
             return false;
         }
-    }
+    };
 
     const _getWinIndexes = function(mark) {
-        return _getColumnWinIndexes(mark)
+        let indexes = _getColumnWinIndexes(mark)
             || _getRowWinIndexes(mark)
             || _getDiagonalWinIndexes(mark);
+        if (indexes) {
+            return new Set(indexes);
+        } else {
+            return null;
+        }
     };
 
     const _getColumnWinIndexes = function(mark) {
@@ -341,7 +346,7 @@ const TicTacToe = (function () {
         isTie,
         markIndex,
         reset,
-        winIndexes,
+        isWinningIndex,
         winner,
     };
 })();
@@ -440,6 +445,11 @@ const DisplayController = (function() {
             cellNode.classList.add("empty");
         }
         
+        if (TicTacToe.isWinningIndex(index)) {
+            cellNode.classList.add("winning");
+        } else {
+            cellNode.classList.remove("winning");
+        }
     };
 
     // Public returnables

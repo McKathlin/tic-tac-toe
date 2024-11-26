@@ -1,7 +1,9 @@
 :root {
-    --text-color: #222222;
+    --text-color: #242628;
     --back-color: white;
-    --grid-color: #777777;
+    --grid-color: #787674;
+    --text-highlight-color: #302800;
+    --back-highlight-color: #fff088;
 
     --default-font: "Comic Sans", comic-sans, cursive;
 
@@ -10,9 +12,11 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --text-color: #dddddd;
+        --text-color: #dadcde;
         --back-color: black;
-        --grid-color: #999999;
+        --grid-color: #9a9896;
+        --text-highlight-color: #fffacc;
+        --back-highlight-color: #484000;
     }
 }
 
@@ -96,6 +100,11 @@ header h1 {
     line-height: var(--cell-height);
     font-size: var(--cell-height);
     background-color: var(--back-color);
+}
+
+#board .cell.winning {
+    color: var(--text-highlight-color);
+    background-color: var(--back-highlight-color);
 }
 
 #board .cell.empty {
