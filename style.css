@@ -6,10 +6,9 @@
     --back-highlight-color: #fff088;
     --text-pending-color: #24262840;
 
-    --print-font: Arial, Helvetica, sans-serif;
-    --write-font: "Comic Sans", comic-sans, cursive, sans-serif;
+    --default-font: "Comic Sans", comic-sans, cursive;
 
-    font-size: clamp(10px, calc(8px + 1.6vmin), 50px);
+    font-size: clamp(10px, calc(8px + 1.5vmin), 50px);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,7 +29,7 @@
 }
 
 body {
-    font-family: var(--print-font);
+    font-family: var(--default-font);
     text-align: center;
 
     height: 100vh;
@@ -39,7 +38,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 0.5rem;
 
@@ -68,7 +67,7 @@ header h1 {
 }
 
 #name-row input {
-    font-family: var(--write-font);
+    font-family: var(--default-font);
     font-size: 1rem;
 
     color: var(--text-color);
@@ -88,23 +87,16 @@ header h1 {
 
 /* Board */
 
-main {
-    height: min(70vh, 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 0.5rem;
-}
-
 #board {
     --grid-height: min(calc(95vh - 10.5rem), 85vw);
     --grid-line-breadth: clamp(2px, 1vmin, 12px);
     --cell-height: calc((var(--grid-height) * 0.33) - (var(--grid-line-breadth) * 2));
 
-    flex: 0 0 var(--grid-height);;
+    height: var(--grid-height);
     aspect-ratio: 1 / 1;
+    margin: auto;
     background-color: var(--grid-color);
+    border: var(--grid-line-breadth) solid var(--grid-color);
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -113,14 +105,12 @@ main {
 }
 
 #board .cell {
-    font-family: var(--write-font);
-    font-size: var(--cell-height);
-    line-height: var(--cell-height);
-
     color: var(--text-color);
-    background-color: var(--back-color);
-
     text-align: center;
+    vertical-align: center;
+    line-height: var(--cell-height);
+    font-size: var(--cell-height);
+    background-color: var(--back-color);
 }
 
 #board .cell.winning {
@@ -149,21 +139,20 @@ main {
     cursor: not-allowed;
 }
 
+
 /* Message row */
 
 #message-row {
-    font-family: var(--write-font);
-
     /* Keeps height consistent through button hide/show */
     height: 1.2rem;
-    flex: 0;
+    margin-top: 0.5rem;
 }
 
 #message-row button {
     display: inline-block;
     cursor: pointer;
 
-    font-family: var(--write-font);
+    font-family: var(--default-font);
     font-size: 1rem;
 
     color: var(--text-color);
@@ -185,14 +174,13 @@ main {
 
 footer {
     font-size: 0.8rem;
-    padding: 0.5rem;
 }
 
 footer a {
     color: var(--text-color);
 }
 
-/* Larger screen adjustments */
+/* Wider screen adjustments */
 
 @media (min-width: 600px) {
     #name-row input {
@@ -204,9 +192,8 @@ footer a {
 /* Tiny screen adjustments */
 
 @media (max-height: 240px) {
-    body {
-        justify-content: center;
-        gap: 2px;
+    #body {
+        gap: 0.25rem;
     }
 
     header h1, footer {
@@ -219,16 +206,11 @@ footer a {
 }
 
 @media (max-height: 150px) {
-    body {
-        gap: 0;
-        justify-content: flex-start;
-    }
-
-    header {
+    #name-row {
         display: none;
     }
 
     #board {
-        --grid-height: min(calc(95vh - 2rem), 90vw);
+        --grid-height: min(calc(95vh - 2.5rem), 85vw);
     }
 }
