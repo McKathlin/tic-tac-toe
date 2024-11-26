@@ -9,7 +9,7 @@
     --print-font: Arial, Helvetica, sans-serif;
     --write-font: "Comic Sans", comic-sans, cursive, sans-serif;
 
-    font-size: clamp(10px, calc(8px + 1.5vmin), 50px);
+    font-size: clamp(10px, calc(8px + 1.6vmin), 50px);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -192,7 +192,7 @@ footer a {
     color: var(--text-color);
 }
 
-/* Wider screen adjustments */
+/* Larger screen adjustments */
 
 @media (min-width: 600px) {
     #name-row input {
@@ -219,11 +219,16 @@ footer a {
 }
 
 @media (max-height: 150px) {
-    #name-row {
+    body {
+        gap: 0;
+        justify-content: flex-start;
+    }
+
+    header {
         display: none;
     }
 
     #board {
-        --grid-height: min(calc(95vh - 1.5rem), 90vw);
+        --grid-height: min(calc(95vh - 2rem), 90vw);
     }
 }
