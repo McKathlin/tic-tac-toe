@@ -2,6 +2,8 @@
     --text-color: #222222;
     --back-color: white;
     --grid-color: #777777;
+    --text-highlight-color: #302800;
+    --back-highlight-color: #fffabb;
 
     --default-font: "Comic Sans", comic-sans, cursive;
 
@@ -13,6 +15,8 @@
         --text-color: #dddddd;
         --back-color: black;
         --grid-color: #999999;
+        --text-highlight-color: #fffabb;
+        --back-highlight-color: #484000;
     }
 }
 
