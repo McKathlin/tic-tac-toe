@@ -24,6 +24,7 @@
 
 body {
     font-family: var(--default-font);
+    text-align: center;
 
     height: 100vh;
     color: var(--text-color);
@@ -40,18 +41,21 @@ body {
     display: none !important;
 }
 
-/* Header */
-
-header {
-    text-align: center;
-}
+/* Title */
 
 header h1 {
     font-size: 2.5rem;
     padding: 0.5rem;
 }
 
-header button {
+/* Message row */
+
+#message-row {
+    /* Keeps height consistent through button hide/show */
+    height: 2.5rem;
+}
+
+#message-row button {
     display: inline-block;
     cursor: pointer;
 
@@ -70,7 +74,7 @@ header button {
 /* Board */
 
 #board {
-    --grid-height: calc(95vmin - 8.5rem);
+    --grid-height: calc(95vh - 9rem), 85vw;
     --grid-line-breadth: clamp(2px, 1vmin, 12px);
     --cell-height: calc((var(--grid-height) * 0.33) - (var(--grid-line-breadth) * 2));
 
