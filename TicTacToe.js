@@ -63,6 +63,7 @@ const TicTacToe = (function () {
         clear();
         return {
             WIDTH, HEIGHT,
+            clear,
             getAtCoords, getAtIndex,
             isClearAtCoords, isClearAtIndex,
             setAtCoords, setAtIndex,
@@ -334,13 +335,22 @@ const TicTacToe = (function () {
 
     // Public returnables
 
-    return { board, currentPlayer, markIndex, winner, winIndexes, isTie };
+    return {
+        board,
+        currentPlayer,
+        isTie,
+        markIndex,
+        reset,
+        winIndexes,
+        winner,
+    };
 })();
 
 //=============================================================================
 // Node constants
 //=============================================================================
-const statusMessage = document.getElementById("status-message");
+const statusMessageNode = document.getElementById("status-message");
+const resetButtonNode = document.getElementById("reset-button");
 const boardNode = document.getElementById("board");
 const cellNodes = boardNode.querySelectorAll(".cell");
 
@@ -357,10 +367,16 @@ const DisplayController = (function() {
         }
         TicTacToe.markIndex(index);
         refresh();
-    }
+    };
+
+    resetGame = function() {
+        TicTacToe.reset();
+        refresh();
+    };
 
     refresh = function() {
         _refreshStatusMessage();
+        _refreshResetButton();
         _refreshBoard();
     };
 
@@ -382,12 +398,20 @@ const DisplayController = (function() {
     _refreshStatusMessage = function() {
         if (TicTacToe.winner()) {
             let winnerName = TicTacToe.winner().name;
-            statusMessage.textContent = `${winnerName} wins!`;
+            statusMessageNode.textContent = `${winnerName} wins!`;
         } else if (TicTacToe.isTie()) {
-            statusMessage.textContent = `It's a tie.`;
+            statusMessageNode.textContent = `It's a tie.`;
         } else {
             let playerName = TicTacToe.currentPlayer().name;
-            statusMessage.textContent = `It's ${playerName}'s turn.`;
+            statusMessageNode.textContent = `It's ${playerName}'s turn.`;
+        }
+    };
+
+    _refreshResetButton = function() {
+        if (TicTacToe.winner() || TicTacToe.isTie()) {
+            resetButtonNode.classList.remove("hidden");
+        } else {
+            resetButtonNode.classList.add("hidden");
         }
     };
 
@@ -419,7 +443,7 @@ const DisplayController = (function() {
     };
 
     // Public returnables
-    return { markCell, refresh };
+    return { markCell, resetGame, refresh };
 
 })();
 
@@ -432,5 +456,9 @@ for (cellNode of cellNodes) {
         DisplayController.markCell(event.target);
     });
 }
+
+resetButtonNode.addEventListener("click", function(event) {
+    DisplayController.resetGame();
+})
 
 DisplayController.refresh();
