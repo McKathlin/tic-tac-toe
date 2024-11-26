@@ -3,6 +3,8 @@
     --back-color: white;
     --grid-color: #777777;
 
+    --default-font: "Comic Sans", comic-sans, cursive;
+
     font-size: clamp(10px, calc(8px + 1.5vmin), 50px);
 }
 
@@ -21,7 +23,7 @@
 }
 
 body {
-    font-family: "Comic Sans", comic-sans, cursive;
+    font-family: var(--default-font);
 
     height: 100vh;
     color: var(--text-color);
@@ -47,6 +49,22 @@ header {
 header h1 {
     font-size: 2.5rem;
     padding: 0.5rem;
+}
+
+header button {
+    display: inline-block;
+    cursor: pointer;
+
+    font-family: var(--default-font);
+    font-size: 1rem;
+
+    color: var(--text-color);
+    background-color: var(--back-color);
+
+    border: 1px solid var(--text-color);
+    border-radius: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    margin-left: 0.5rem;
 }
 
 /* Board */
