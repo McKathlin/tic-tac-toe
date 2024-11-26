@@ -74,7 +74,7 @@ header h1 {
 /* Board */
 
 #board {
-    --grid-height: calc(95vh - 9rem), 85vw;
+    --grid-height: calc(95vmin - 9rem);
     --grid-line-breadth: clamp(2px, 1vmin, 12px);
     --cell-height: calc((var(--grid-height) * 0.33) - (var(--grid-line-breadth) * 2));
 
