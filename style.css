@@ -79,6 +79,12 @@ header h1 {
     margin-left: 0.5rem;
 }
 
+#message-row button:hover {
+    color: var(--text-highlight-color);
+    border-color: var(--text-highlight-color);
+    background-color: var(--back-highlight-color);
+}
+
 /* Board */
 
 #board {
